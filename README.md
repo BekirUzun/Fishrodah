@@ -1,7 +1,7 @@
 # Fishrodah
 ###### Yet another fishbot for World of Warcraft
 
-![Screenshot of Fishrodah][screenshot]
+![Screenshot of Fishrodah](fishrodah.png "Screenshot of Fishrodah")
 
 Fishrodah is another fishing bot for World of Warcraft. It uses unique methods to catch fish. It neither injects dll nor changes anything on memory. Fishrodah uses image processing to find the fishing bobber. It simply searches bobber image (bobber.png) on screen. It also sound processing to determine correct timing to click the bobber. It just listens your sound card output (does not records anything) and fires an event when fishing sound found. To make Fishrodah work, WoW window must be visible and there must not any sound or music playing in background. The only sound source must be WoW. 
 
@@ -17,7 +17,3 @@ Fishrodah is another fishing bot for World of Warcraft. It uses unique methods t
 - Click "Start Bot"
 
 **Note that**, depending on your fishing location, you may need to replace bobber.png with your own screenshot.
-
-[screenshot]: https://raw.githubusercontent.com/BekirUzun/Fishrodah/master/fishrodah.png "Screenshot of Fishrodah"
-
- 
