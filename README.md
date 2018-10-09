@@ -17,3 +17,8 @@ Fishrodah is another fishing bot for World of Warcraft. It uses unique methods t
 - Click "Start Bot"
 
 **Note that**, depending on your fishing location, you may need to replace bobber.png with your own screenshot.
+
+## Download
+**v0.9.1** - Click [here][download] to download latest release
+
+ [download]: https://github.com/BekirUzun/Fishrodah/releases/download/v0.9.1/Fishrodah-v0.9.1.zip "Fishrodah-v0.9.1"
