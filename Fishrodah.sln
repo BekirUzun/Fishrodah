@@ -1,0 +1,35 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28010.2016
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fishrodah", "Fishrodah\Fishrodah.csproj", "{FB845745-D8DC-4234-870B-C0FE53900693}"
+EndProject
+Project("{888888A0-9F3D-457C-B088-3A5042F75D52}") = "Listener", "Listener\Listener.pyproj", "{DC3E692F-407B-4511-AA17-7D420B4BD359}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FlatUI", "FlatUI\FlatUI.csproj", "{FC508337-0212-4F3B-88FE-5C9FF09F4D47}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{FB845745-D8DC-4234-870B-C0FE53900693}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FB845745-D8DC-4234-870B-C0FE53900693}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FB845745-D8DC-4234-870B-C0FE53900693}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FB845745-D8DC-4234-870B-C0FE53900693}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DC3E692F-407B-4511-AA17-7D420B4BD359}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DC3E692F-407B-4511-AA17-7D420B4BD359}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FC508337-0212-4F3B-88FE-5C9FF09F4D47}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FC508337-0212-4F3B-88FE-5C9FF09F4D47}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FC508337-0212-4F3B-88FE-5C9FF09F4D47}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FC508337-0212-4F3B-88FE-5C9FF09F4D47}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {9E406FCF-66A5-4663-9FB1-F2D66854A243}
+	EndGlobalSection
+EndGlobal
