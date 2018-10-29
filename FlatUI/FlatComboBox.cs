@@ -171,24 +171,24 @@ namespace FlatUI
 			_with16.TextRenderingHint = TextRenderingHint.ClearTypeGridFit;
 
 			//-- Base
-			_with16.FillRectangle(new SolidBrush(_BGColor), Base);
-
-			//-- Button
-			GP.Reset();
-			GP.AddRectangle(Button);
-			_with16.SetClip(GP);
-			_with16.FillRectangle(new SolidBrush(_BaseColor), Button);
-			_with16.ResetClip();
-
-			//-- Lines
-			_with16.DrawLine(Pens.White, W - 10, H/2 - H/3, W - 30, H/2 - H/3);
-			_with16.DrawLine(Pens.White, W - 10, H/2, W - 30, H/2);
-			_with16.DrawLine(Pens.White, W - 10, H/2 + H/3, W - 30, H/2 + H/3);
+			_with16.FillRectangle(new SolidBrush(_BGColor), Base);		
 
 			//-- Text
 			_with16.DrawString(Text, Font, Brushes.White, new Point(4, 6), Helpers.NearSF);
 
-			G.Dispose();
+            //-- Button
+            GP.Reset();
+            GP.AddRectangle(Button);
+            _with16.SetClip(GP);
+            _with16.FillRectangle(new SolidBrush(_BaseColor), Button);
+            _with16.ResetClip();
+
+            //-- Lines
+            _with16.DrawLine(Pens.White, W - 10, H / 2 - H / 3, W - 30, H / 2 - H / 3);
+            _with16.DrawLine(Pens.White, W - 10, H / 2, W - 30, H / 2);
+            _with16.DrawLine(Pens.White, W - 10, H / 2 + H / 3, W - 30, H / 2 + H / 3);
+
+            G.Dispose();
 			e.Graphics.InterpolationMode = InterpolationMode.HighQualityBicubic;
 			e.Graphics.DrawImageUnscaled(B, 0, 0);
 			B.Dispose();

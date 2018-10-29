@@ -269,7 +269,7 @@ namespace Fishrodah
             }
             else if (action.Contains("searchfail"))
             {
-                float similarity = float.Parse(action.Split('=')[1]);
+                float similarity = float.Parse(action.Split('=')[1].Replace('.', ','));
                 Log("Bobber not found. Reduced similarity rate to " + similarity.ToString("0.0"));
             }
             else if (action.Contains("notfound"))

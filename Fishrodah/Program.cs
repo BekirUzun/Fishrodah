@@ -28,7 +28,7 @@ namespace Fishrodah
             Application.CurrentCulture = System.Globalization.CultureInfo.CurrentCulture;
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            SetProcessDpiAwareness((int)DpiAwareness.PerMonitorAware); // high dpi monitor fix
+            SetProcessDpiAwareness((int)DpiAwareness.SystemAware); // high dpi monitor fix
 
 
             Application.Run(new MainForm());
