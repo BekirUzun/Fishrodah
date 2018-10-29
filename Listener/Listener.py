@@ -1,4 +1,4 @@
-import time, pyaudio, wave, pyautogui, sys, argparse
+import time, pyaudio, wave, pyautogui, sys, argparse, re
 from array import array
 from random import randint
 
@@ -12,13 +12,36 @@ def point_str(x, y):
 
 
 parser = argparse.ArgumentParser()
-parser.add_argument("-x", metavar="int", type=int, help="mouse location in x axis")
-parser.add_argument("-i", metavar="str", type=str, help="bobber image file")
+parser.add_argument("-i", "--image", metavar="str", type=str, help="bobber image file")
 parser.add_argument(
-    "-c", metavar="float", type=float, help="start value of confidence rate"
+    "-c", "--confidence", metavar="float", type=float, help="start value of confidence rate"
 )
+parser.add_argument("-l", "--list", action='store_true', help="list sound i/o devices")
+parser.add_argument("-s", "--speaker", metavar="int", type=int, help="speaker index")
 
 args = parser.parse_args()
+
+audio = pyaudio.PyAudio()
+if(args.list):
+    
+    info1 = audio.get_default_output_device_info()
+    
+    out_str = '{ "DeviceList": [ ';
+    for i in range(audio.get_device_count()):
+        info = audio.get_device_info_by_index(i)
+        
+        #filter input devices (mic)
+        if(info["maxInputChannels"] > 0 or info["maxOutputChannels"] == 0):
+            continue
+        
+        out_str += str(info) + ', '
+
+    out_str = ''.join(re.sub(r'[^a-zA-Z0-9_"{}()\[\],.: \']+', '', out_str.replace("'", '"') + "] }").rsplit(',', 1))
+    print(out_str)
+    out = open("speakers.json", "w")
+    out.write(out_str)
+    out.close()
+    exit()
 
 check_interval = 0.050  # seconds
 
@@ -29,10 +52,13 @@ reset_sound = 1.000  # seconds
 sound_length = 0
 silence_length = 0
 timeout_length = 25.000
-audio = pyaudio.PyAudio()
+
 stream = None
 deviceInfo = {}
-device_index = 7  # FIXME: MAKE IT PARAMETERIZED
+device_index = audio.get_default_output_device_info()['index']
+if(args.speaker is not None):
+    device_index = args.speaker
+
 # endregion
 
 
@@ -48,7 +74,6 @@ is_bobber_found = False
 is_searching_bobber = False
 current_confidence = confidence_start
 search_cd = 2.000
-
 
 def find_bobber():
     global is_bobber_found, search_cd, current_confidence
@@ -119,7 +144,7 @@ while True:
     data = stream.read(frames)
 
     # region Record sound
-    threshold = 2000
+    threshold = 1000
     max_value = 0
 
     as_ints = array("h", data)

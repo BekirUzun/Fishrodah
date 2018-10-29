@@ -14,7 +14,7 @@ using System.Globalization;
 using System.Data;
 using System.Runtime.InteropServices;
 using System.Drawing.Imaging;
-//using nucs.JsonSettings;
+using nucs.JsonSettings;
 
 namespace Fishrodah
 {
@@ -24,6 +24,7 @@ namespace Fishrodah
         private MainForm form;
         private Process listener;
         public Process SelectedProcess;
+        public int SelectedSpeaker;
         public Keys FishingKey;
         Point clickPoint;
         int fishCount;
@@ -147,7 +148,7 @@ namespace Fishrodah
 
         public void Start()
         {
-            if (IsRunning)
+            if (IsRunning || SelectedSpeaker < 1 || SelectedProcess == null)
             {
                 return;
             }
@@ -156,21 +157,18 @@ namespace Fishrodah
             IsRunning = true;
             //RunListener();
             Task.Factory.StartNew(() => RunListener());
-
         }
 
         private void RunListener()
         {
-
-            
             var startinfo = new ProcessStartInfo(@".\Listener.exe")
             {
                 CreateNoWindow = true,
                 UseShellExecute = false,
                 RedirectStandardOutput = true,
                 RedirectStandardError = true,
+                Arguments = "-s " + SelectedSpeaker
             };
-
             listener = new Process { StartInfo = startinfo };
 
             listener.OutputDataReceived += DataRecieved;
@@ -183,6 +181,21 @@ namespace Fishrodah
             listener.BeginOutputReadLine();
 
             listener.WaitForExit();
+        }
+
+        public void GetSpeakers()
+        {
+            var startinfo = new ProcessStartInfo(@".\Listener.exe")
+            {
+                CreateNoWindow = true,
+                UseShellExecute = false,
+                Arguments = " -l"
+            };
+
+            var proc = new Process { StartInfo = startinfo };
+            proc.Start();
+
+            proc.WaitForExit();
         }
 
         private void DataRecieved(object sender, DataReceivedEventArgs e)

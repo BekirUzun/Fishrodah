@@ -12,6 +12,7 @@ using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using nucs.JsonSettings;
 
 namespace Fishrodah
 {
@@ -19,6 +20,7 @@ namespace Fishrodah
     {
         Bot bot;
         List<Process> processes;
+        Speakers speakers;
         Color red, green, blue, disabled;
 
         public MainForm()
@@ -32,13 +34,16 @@ namespace Fishrodah
 
             processes = new List<Process>();
             bot = new Bot(this);
+            speakers = JsonSettings.Load<Speakers>();
 
             LoadProcesses();
+            LoadSpeakers();
         }
 
         public void DisplayLog(string text)
         {
             logLabel.Invoke((MethodInvoker)(() => logLabel.Text += text + "\n"));
+            logPanel.Invoke((MethodInvoker)(() => logPanel.VerticalScroll.Value = logPanel.VerticalScroll.Maximum));
         }
 
         private void startBtn_Click(object sender, EventArgs e)
@@ -46,10 +51,10 @@ namespace Fishrodah
             if (bot.IsRunning)
             {
                 startBtn.BackColor = blue;
-                reloadBtn.BackColor = green;
+                processRldBtn.BackColor = green;
                 startBtn.Text = "Start Bot";
                 processesCB.Enabled = true;
-                reloadBtn.Enabled = true;
+                processRldBtn.Enabled = true;
                 
                 bot.Stop();
             }
@@ -57,14 +62,13 @@ namespace Fishrodah
             {
 
                 startBtn.BackColor = red;
-                reloadBtn.BackColor = disabled;
+                processRldBtn.BackColor = disabled;
                 startBtn.Text = "Stop Bot";
                 processesCB.Enabled = false;
-                reloadBtn.Enabled = false;
+                processRldBtn.Enabled = false;
                 
                 bot.Start();
             }
-
         }
 
         private void LoadProcesses()
@@ -102,11 +106,59 @@ namespace Fishrodah
             processesCB.SelectedIndex = 0;
             processesCB.Enabled = true;
             //processesCB.PromptText = "Select a process...";
-
-
         }
 
-        private void reloadBtn_Click(object sender, EventArgs e)
+        private void LoadSpeakers()
+        {
+            if(speakers.DeviceList.Count == 0)
+            {
+                ReloadSpeakers();
+                return;
+            }
+
+            foreach (SoundDevice device in speakers.DeviceList)
+            {
+                speakersCB.Items.Add("(" + device.Index + ") " + device.Name);
+            }
+
+            speakersCB.SelectedIndex = 0;
+            speakersCB.Enabled = true;
+        }
+
+        private void ReloadSpeakers()
+        {
+            //string sp = bot.GetSpeakers();
+
+            bot.GetSpeakers();
+
+            speakers = JsonSettings.Load<Speakers>();
+            speakers.Save();
+
+            speakersCB.Items.Clear();
+            speakersCB.ResetText();
+            speakersCB.SelectedItem = null;
+            speakersCB.SelectedIndex = -1;
+
+            if(speakers.DeviceList.Count > 0)
+                LoadSpeakers();
+        }
+
+        private void speakersRldBtn_Click(object sender, EventArgs e)
+        {
+            ReloadSpeakers();
+        }
+
+        private void speakersCB_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (speakersCB.SelectedIndex < 0 || speakersCB.SelectedIndex >= speakers.DeviceList.Count)
+            {
+                bot.SelectedSpeaker = -1;
+                return;
+            }
+            bot.SelectedSpeaker = speakers.DeviceList[speakersCB.SelectedIndex].Index;
+        }
+
+        private void processRldBtn_Click(object sender, EventArgs e)
         {
             LoadProcesses();
         }
@@ -116,10 +168,8 @@ namespace Fishrodah
             if (processesCB.SelectedIndex < 0 || processesCB.SelectedIndex >= processes.Count)
             {
                 bot.SelectedProcess = null;
-                startBtn.Enabled = false;
                 return;
             }
-            startBtn.Enabled = true;
             bot.SelectedProcess = processes[processesCB.SelectedIndex];
         }
 
