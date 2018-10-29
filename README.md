@@ -11,9 +11,11 @@ Fishrodah is another fishing bot for World of Warcraft. It uses unique methods t
 
 ## Usage
 - Mute music and environment sound in-game
+- Put fishing spell on action bar
 - Find a silent fishing spot (really, any kind of noise affects the performance of bot)
 - Select WoW process from list
 - Set fishing button key
+- Select active speaker from sound source list
 - Click "Start Bot"
 
 **Note that**, depending on your fishing location, you may need to replace bobber.png with your own screenshot.
