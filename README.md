@@ -30,6 +30,6 @@ pip install -r requirements.txt
 
 
 ## Download
-**v0.9.1** - Click [here][download] to download latest release
+**v1.0.0** - Click [here][download] to download latest release
 
- [download]: https://github.com/BekirUzun/Fishrodah/releases/download/v0.9.1/Fishrodah-v0.9.1.zip "Fishrodah-v0.9.1"
+ [download]: https://github.com/BekirUzun/Fishrodah/releases/download/v1.0.0/Fishrodah-v1.0.0.zip "Fishrodah-v1.0.0"
