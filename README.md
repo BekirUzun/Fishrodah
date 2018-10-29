@@ -20,6 +20,15 @@ Fishrodah is another fishing bot for World of Warcraft. It uses unique methods t
 
 **Note that**, depending on your fishing location, you may need to replace bobber.png with your own screenshot.
 
+## Building
+- Clone project somewhere.
+- Install python library dependencies in Fishrodah/Listener folder via: 
+```
+pip install -r requirements.txt
+```
+- Run ``build.bat`` in Fishrodah/Listener folder in order to compile python sources. You can add this batch file to pre-build events in Visual Studio project properties.
+
+
 ## Download
 **v0.9.1** - Click [here][download] to download latest release
 
