@@ -21,13 +21,13 @@ namespace Fishrodah
     public class Bot
     {
         public bool IsRunning { get; private set; }
-        private MainForm form;
-        private Process listener;
         public Process SelectedProcess;
-        public int SelectedSpeaker;
-        public Keys FishingKey;
+        public SettingsManager Settings;
+        MainForm form;
+        Process listener;
         Point clickPoint;
         int fishCount;
+        
 
         #region Structs
         internal struct INPUT
@@ -139,6 +139,8 @@ namespace Fishrodah
             clickPoint = new Point(0, 0);
             fishCount = 0;
             this.form = form;
+  
+            Settings = JsonSettings.Load<SettingsManager>();
 
             Process[] plist = Process.GetProcessesByName("Wow-64");
             if(plist.Length > 0)
@@ -148,14 +150,13 @@ namespace Fishrodah
 
         public void Start()
         {
-            if (IsRunning || SelectedSpeaker < 1 || SelectedProcess == null)
+            if (IsRunning || SelectedProcess == null)
             {
                 return;
             }
             Log("Starting bot...");
 
             IsRunning = true;
-            //RunListener();
             Task.Factory.StartNew(() => RunListener());
         }
 
@@ -167,7 +168,7 @@ namespace Fishrodah
                 UseShellExecute = false,
                 RedirectStandardOutput = true,
                 RedirectStandardError = true,
-                Arguments = "-s " + SelectedSpeaker
+                Arguments = "-s " + Settings.SelectedSpeaker
             };
             listener = new Process { StartInfo = startinfo };
 
@@ -325,9 +326,9 @@ namespace Fishrodah
             if (SelectedProcess == null)
                 return;
 
-            PostMessage(SelectedProcess.MainWindowHandle, WM_KEYDOWN, (IntPtr)FishingKey, IntPtr.Zero); 
+            PostMessage(SelectedProcess.MainWindowHandle, WM_KEYDOWN, (IntPtr)Settings.FishingKey, IntPtr.Zero); 
             //Thread.Sleep(5);
-            PostMessage(SelectedProcess.MainWindowHandle, WM_KEYUP, (IntPtr)FishingKey, IntPtr.Zero);
+            PostMessage(SelectedProcess.MainWindowHandle, WM_KEYUP, (IntPtr)Settings.FishingKey, IntPtr.Zero);
 
         }
 

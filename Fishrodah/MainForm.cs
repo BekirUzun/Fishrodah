@@ -36,6 +36,13 @@ namespace Fishrodah
             bot = new Bot(this);
             speakers = JsonSettings.Load<Speakers>();
 
+            if(bot.Settings.FishingKey != Keys.None)
+            {
+                keyTB.Text = bot.Settings.FishingKey.ToString();
+                startBtn.Enabled = true;
+                startBtn.BackColor = blue;
+            }
+
             LoadProcesses();
             LoadSpeakers();
         }
@@ -52,9 +59,12 @@ namespace Fishrodah
             {
                 startBtn.BackColor = blue;
                 processRldBtn.BackColor = green;
+                speakersRldBtn.BackColor = green;
                 startBtn.Text = "Start Bot";
                 processesCB.Enabled = true;
                 processRldBtn.Enabled = true;
+                speakersCB.Enabled = true;
+                speakersRldBtn.Enabled = true;
                 
                 bot.Stop();
             }
@@ -63,10 +73,13 @@ namespace Fishrodah
 
                 startBtn.BackColor = red;
                 processRldBtn.BackColor = disabled;
+                speakersRldBtn.BackColor = disabled;
                 startBtn.Text = "Stop Bot";
                 processesCB.Enabled = false;
                 processRldBtn.Enabled = false;
-                
+                speakersCB.Enabled = false;
+                speakersRldBtn.Enabled = false;
+
                 bot.Start();
             }
         }
@@ -116,12 +129,15 @@ namespace Fishrodah
                 return;
             }
 
-            foreach (SoundDevice device in speakers.DeviceList)
+            int selectedIndex = 0;
+            for(int i = 0; i < speakers.DeviceList.Count; i++)
             {
-                speakersCB.Items.Add("(" + device.Index + ") " + device.Name);
+                speakersCB.Items.Add("(" + speakers.DeviceList[i].Index + ") " + speakers.DeviceList[i].Name);
+                if (speakers.DeviceList[i].Index == bot.Settings.SelectedSpeaker)
+                    selectedIndex = i;
             }
 
-            speakersCB.SelectedIndex = 0;
+            speakersCB.SelectedIndex = selectedIndex;
             speakersCB.Enabled = true;
         }
 
@@ -152,10 +168,11 @@ namespace Fishrodah
         {
             if (speakersCB.SelectedIndex < 0 || speakersCB.SelectedIndex >= speakers.DeviceList.Count)
             {
-                bot.SelectedSpeaker = -1;
+                bot.Settings.SelectedSpeaker = -1;
                 return;
             }
-            bot.SelectedSpeaker = speakers.DeviceList[speakersCB.SelectedIndex].Index;
+            bot.Settings.SelectedSpeaker = speakers.DeviceList[speakersCB.SelectedIndex].Index;
+            bot.Settings.Save();
         }
 
         private void processRldBtn_Click(object sender, EventArgs e)
@@ -176,12 +193,12 @@ namespace Fishrodah
         private void keyTB_KeyDown(object sender, KeyEventArgs e)
         {
             e.SuppressKeyPress = true;
-            bot.FishingKey = e.KeyCode;
-            //settings.KeyToSend = (int)e.KeyCode;
+            bot.Settings.FishingKey = e.KeyCode;
             keyTB.Text = e.KeyData.ToString();
             startBtn.Enabled = true;
             startBtn.BackColor = blue;
-            //base.OnKeyDown(e);
+
+            bot.Settings.Save();
         }
 
     }
